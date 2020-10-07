@@ -19,7 +19,7 @@ const bemValidator  = require('gulp-html-bem-validator');
 // Определяем логику работы Browsersync
 function browsersync() {
 	browserSync.init({ // Инициализация Browsersync
-		server: { baseDir: 'app/pages/' }, // Указываем папку сервера
+		server: { baseDir: 'app/' }, // Указываем папку сервера
 		notify: false, // Отключаем уведомления
 		online: true // Режим работы: true или false
 	})
@@ -37,9 +37,9 @@ function scripts() {
 }
 
 function styles() {
-	return src('app/' + preprocessor + '/main.' + preprocessor + '') // Выбираем источник: "app/sass/main.sass" или "app/less/main.less"
+	return src('app/' + preprocessor + '/*.' + preprocessor + '') // Выбираем источник: "app/sass/main.sass" или "app/less/main.less"
 	.pipe(eval(preprocessor)()) // Преобразуем значение переменной "preprocessor" в функцию
-	.pipe(concat('app.min.css')) // Конкатенируем в файл app.min.js
+	//.pipe(concat('app.min.css')) // Конкатенируем в файл app.min.js
 	.pipe(autoprefixer({ overrideBrowserslist: ['last 10 versions'], grid: true })) // Создадим префиксы с помощью Autoprefixer
 	.pipe(cleancss( { level: { 1: { specialComments: 0 } }/* , format: 'beautify' */ } )) // Минифицируем стили
 	.pipe(dest('app/css/')) // Выгрузим результат в папку "app/css/"
@@ -76,7 +76,7 @@ function pugs() {
     .pipe(pug())
     .pipe(htmlValidator())
     .pipe(bemValidator())
-    .pipe(dest('app/pages/'))
+    .pipe(dest('app/'))
     .pipe(browserSync.stream()) // Сделаем инъекцию в браузер
 }
 
